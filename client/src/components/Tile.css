@@ -1,0 +1,46 @@
+.tile {
+  width: 58px;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  border: 2px solid #d3d6da;
+  background: #ffffff;
+  color: #1a1a1b;
+  user-select: none;
+  transition: border-color 80ms ease;
+}
+
+/* Pending: letter typed but not yet submitted */
+.tile--pending {
+  border-color: #878a8c;
+  animation: pop 100ms ease-in-out;
+}
+
+/* Submitted states — the real game colors */
+.tile--correct {
+  background: #6aaa64;
+  border-color: #6aaa64;
+  color: #ffffff;
+}
+
+.tile--present {
+  background: #c9b458;
+  border-color: #c9b458;
+  color: #ffffff;
+}
+
+.tile--absent {
+  background: #787c7e;
+  border-color: #787c7e;
+  color: #ffffff;
+}
+
+/* Subtle pop when a letter lands */
+@keyframes pop {
+  0% { transform: scale(0.85); }
+  100% { transform: scale(1); }
+}

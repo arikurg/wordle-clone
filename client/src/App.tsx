@@ -1,13 +1,14 @@
 // client/src/App.tsx
 import { useEffect } from 'react';
+import { Board } from './components/Board';
+import { Keyboard } from './components/Keyboard';
 import { useGame } from './hooks/useGame';
 import './App.css';
 
 export default function App() {
   const game = useGame();
 
-  // Wire keyboard events to the hook for now — a proper on-screen
-  // keyboard component comes in step 7.
+  // Physical keyboard support — same actions as the on-screen keyboard.
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
       if (e.key === 'Enter') game.submit();
@@ -20,27 +21,36 @@ export default function App() {
 
   return (
     <main>
-      <h1>Definitely not Wordle</h1>
+      <header className="header">
+        <h1>Definitely not Wordle</h1>
+      </header>
 
-      <p>Status: {game.status}</p>
-      {game.error && <p style={{ color: 'crimson' }}>{game.error}</p>}
-      {game.answer && <p>Answer was: <strong>{game.answer}</strong></p>}
+      {/* The error message slot stays in the layout even when empty so the
+          board doesn't jump around when an error flashes. */}
+      <div className="message" role="status" aria-live="polite">
+        {game.error}
+      </div>
 
-      <pre style={{ textAlign: 'left' }}>
-        {game.board
-          .map((row) =>
-            row
-              .map((cell) =>
-                cell === null ? '·' : `${cell.letter}[${cell.status[0]}]`,
-              )
-              .join(' '),
-          )
-          .join('\n')}
-      </pre>
+      <Board board={game.board} />
 
       {(game.status === 'won' || game.status === 'lost') && (
-        <button onClick={game.restart}>Play again</button>
+        <div className="result">
+          <p>
+            {game.status === 'won' ? 'You got it! 🎉' : `Better luck next time.`}
+          </p>
+          {game.answer && <p>The word was <strong>{game.answer.toUpperCase()}</strong></p>}
+          <button className="play-again" onClick={game.restart} type="button">
+            Play again
+          </button>
+        </div>
       )}
+
+      <Keyboard
+        board={game.board}
+        onLetter={game.type}
+        onEnter={game.submit}
+        onBackspace={game.backspace}
+      />
     </main>
   );
 }

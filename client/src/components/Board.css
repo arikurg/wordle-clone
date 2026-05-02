@@ -1,0 +1,13 @@
+.board {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px;
+  margin: 0 auto;
+  width: max-content;
+}
+
+.board__row {
+  display: flex;
+  gap: 5px;
+}
