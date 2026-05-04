@@ -10,7 +10,7 @@ export type Tile = {
 
 export type GameStatus = 'in_progress' | 'won' | 'lost';
 
-// API request/response shapes — we'll use these in step 4.
+// API request/response shapes
 
 export type StartGameResponse = {
   gameId: string;
