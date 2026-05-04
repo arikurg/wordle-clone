@@ -1,6 +1,6 @@
 # Definitely not Wordle
 
-A fullstack Wordle clone built for the GoLinks 2026 internship application.
+A fullstack Wordle clone
 
 **Live demo:** https://wordle-clone-sand.vercel.app
 **Backend API:** https://wordle-clone-server.onrender.com
@@ -27,7 +27,7 @@ wordle-clone/
 
 The single most important architectural decision was that **the backend owns the secret word and game state**. The client only knows its session ID; it learns the answer when the game ends or when it explicitly hits the get-answer endpoint. This is what gives the get-answer endpoint actual meaning, and it's what prevents anyone from pulling the answer out of DevTools.
 
-Game sessions live in a `Map<string, GameSession>` on the server, keyed by a UUID. Sessions older than 24 hours are swept on a periodic interval. This is intentionally ephemeral — adding a database for session state would be over-engineering for the project's scope. A production version would persist sessions in Redis keyed by a cookie.
+Game sessions live in a `Map<string, GameSession>` on the server, keyed by a UUID. Sessions older than 24 hours are swept on a periodic interval. This is intentionally ephemeral — adding a database for session state would be over-engineering for the project's scope.
 
 ### API
 
@@ -60,37 +60,10 @@ Two word lists are bundled with the server:
 
 Both lists are bundled rather than fetched from a third-party API to avoid runtime network dependencies and rate limits.
 
-## A note on the spec
-
-The project brief had a small inconsistency: the body text described "5 tries," while the screenshot showed the classic 6-try Wordle grid and the requirement list next to the image specified 6. I went with **6 tries** to match real Wordle and the more recent-looking screenshot. The number lives in a single constant on the server (`MAX_GUESSES`) and is sent to the client in the start-game response, so changing it is a one-line edit.
-
-## Running locally
-
-Requirements: Node 20+, npm.
-
-```bash
-# Install
-cd server && npm install
-cd ../client && npm install
-
-# Run (two terminals)
-cd server && npm run dev    # API on :3001
-cd client && npm run dev    # web on :5173
-```
-
-Run the server tests with `npm test` from inside `server/`.
-
-The client expects a `client/.env` file with:
-
-```
-VITE_API_URL=http://localhost:3001
-```
-
 ## Future work
 
-The scope was deliberately constrained for the take-home. Concrete things I'd add next:
+The scope was deliberately constrained for the golinks project. Concrete things I'd add next:
 
 - **Persistent sessions.** Store the game ID in a cookie and persist sessions in Redis so a refresh resumes the in-progress game. Currently a refresh starts a new game.
-- **Tile-flip and shake animations.** A first pass exists in the git history; I reverted it to ship a clean, working version and would refine it before merging.
-- **Real accessibility pass.** The `aria-live` message slot is in place, but the keyboard buttons need better focus management and the tile colors should pass WCAG contrast in colorblind modes.
+- **Tile-flip and shake animations.** To mimic the frontend animations used in the real Wordle game to make it more fun and interactive.
 - **Daily mode.** Same answer for everyone for 24 hours, which is what makes real Wordle social.
