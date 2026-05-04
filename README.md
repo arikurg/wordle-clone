@@ -3,7 +3,7 @@
 A fullstack Wordle clone built for the GoLinks 2026 internship application.
 
 **Live demo:** https://wordle-clone-sand.vercel.app
-**API:** https://wordle-clone-server.onrender.com
+**Backend API:** https://wordle-clone-server.onrender.com
 
 > **Note:** the API is hosted on Render's free tier, which spins down after ~15 minutes of inactivity. The first request after a quiet period takes ~30 seconds while the server boots; subsequent requests are fast.
 
